@@ -1,0 +1,106 @@
+/******************************************************************************
+** Lab 3: Plagiarism detection
+******************************************************************************/
+
+Group members:
+- [...]
+- [...]
+- [...]
+
+/******************************************************************************
+** Task 1: Analyzing the slow program
+**
+** 1. What is the asymptotic complexity of findSimilarity?
+**    Answer in terms of N, the total number of 5-grams in the input files.
+**    Assume that the number of duplicate occurrences of 5-grams is
+**    a small constant - that is, there is not much plagiarised text.
+**    Explain briefly.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** 2. How long did the program take on the 'small' and 'medium' directories?
+**    Is the ratio between the times what you would expect,
+**    given the asymptotic complexity? Explain very briefly why.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** 3. How long do you predict the program would take to run on
+**    the 'huge' directory? Show your calculations.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** Task 2: Using an index
+**
+** 4. Which of the three BSTs in the program usually become unbalanced?
+**    Say very briefly how you deduced this.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** 5 (optional). Is there a simple way to stop these trees becoming unbalanced?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** Task 3: Using scapegoat trees instead of BSTs
+**
+** 6. What are the asymptotic complexities of buildIndex and findSimilarity?
+**    Include brief justification. Again, assume a total of N 5-grams,
+**    and a constant number of duplicate occurrences of 5-grams.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** 7 (optional). What if the total similarity score is an arbitrary number S,
+**               rather than a small constant?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+[..group member..]:  [..hours..]
+[..group member..]:  [..hours..]
+[..group member..]:  [..hours..]
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+[...]
