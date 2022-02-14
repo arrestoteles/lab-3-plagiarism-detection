@@ -78,8 +78,8 @@ public class PlagiarismDetector {
     static BST<Path, Ngram[]> readPaths(Path[] paths) throws IOException {
         BST<Path, Ngram[]> files = new BST<Path, Ngram[]>();
         for (Path path: paths) {
-            String contents = new String(Files.readAllBytes(path));
-            Ngram[] ngrams = Ngram.ngrams(contents, 5);
+            String contents = new String(Files.readAllBytes(path));    // makes a String with all the contents of the file
+            Ngram[] ngrams = Ngram.ngrams(contents, 5);             // creates all possible Ngrams from the contents
             // Remove duplicates from the ngrams list
             // Uses the Java 8 streams API - very handy Java feature
             // which we don't cover in the course. If you want to
@@ -93,10 +93,27 @@ public class PlagiarismDetector {
         return files;
     }
 
-    // Phase 2: Build index of n-grams (not implemented yet).
+    // Phase 2: Build index of n-grams (not implemented yet)
     static BST<Ngram, ArrayList<Path>> buildIndex(BST<Path, Ngram[]> files) {
-      BST<Ngram, ArrayList<Path>> index = new BST<Ngram, ArrayList<Path>>();
-      // TODO: build index of n-grams
+        BST<Ngram, ArrayList<Path>> index = new BST<Ngram, ArrayList<Path>>();
+        // TODO: build index of n-grams
+        while(files.iterator().hasNext()){
+            Path currentPath = files.iterator().next();
+            Ngram[] currentGrams = files.get(currentPath);
+            for(Ngram currentGram: currentGrams){
+                if (!index.containsKey(currentGram)){
+                    ArrayList<Path> paths = new ArrayList<>();
+                    paths.add(currentPath);
+                    index.put(currentGram, paths);
+                } else {
+                    ArrayList<Path> paths = index.get(currentGram);
+                    if(!paths.contains(currentPath)){
+                        paths.add(currentPath);
+                    }
+                }
+            }
+        }
+
       return index;
     }
 
@@ -111,6 +128,7 @@ public class PlagiarismDetector {
                 if (path1.equals(path2))
                     continue;
 
+                index = buildIndex(files);
                 Ngram[] ngrams1 = files.get(path1);
                 Ngram[] ngrams2 = files.get(path2);
                 for (Ngram ngram1: ngrams1) {

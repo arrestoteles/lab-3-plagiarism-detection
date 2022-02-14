@@ -17,7 +17,11 @@ Group members:
 **    Explain briefly.
 ******************************************************************************/
 
-[...]
+ n^2
+ d is the amount of documents, k is the amount of 5-grams.
+ We loop through the documents twice, hence we get d²
+ And for each iteration of the second documents loop, we loop through the n-grams twice, hence we get K^2
+ Leading our total complexity to be d²*k², since d*k=n, we can say that our asymptotic complexity is n².
 
 /******************************************************************************
 ** 2. How long did the program take on the 'small' and 'medium' directories?
@@ -25,14 +29,28 @@ Group members:
 **    given the asymptotic complexity? Explain very briefly why.
 ******************************************************************************/
 
-[...]
+small: 4.43 seconds
+medium: 751.18 seconds
+
+We expect the increase in time from small to medium to be 100 times greater, as the increase in N 
+
+(20_000^2)/x = 4 secs
+400_000_000/x = 4 secs
+
+20_000^2 = 400_000_000 = 4 secs
+(200_000^2) * 2 = 40_000_000_000 * 2 = 400 secs * 2 = 800 secs
+4,000,000^2 = 16,000,000,000,000 = 160,000 secs
+
+Since the notes mentioned that you should expect an additional 2X increase
 
 /******************************************************************************
 ** 3. How long do you predict the program would take to run on
 **    the 'huge' directory? Show your calculations.
 ******************************************************************************/
 
-[...]
+Ratio between small and huge = 4_000_000/20_000 = 200
+We expect complexity to be a multiple of 200² = 40_000
+4.43 * 40_000 = 177_200 seconds ~ 49 hours
 
 /******************************************************************************
 ** Task 2: Using an index
