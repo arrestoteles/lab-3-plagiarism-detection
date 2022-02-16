@@ -177,7 +177,14 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
     private void inorder(Node node, ArrayList<Node> nodes) {
         // TODO: use in-order traversal to store 'node'
         // and all descendants into 'nodes' ArrayList
-        throw new UnsupportedOperationException();
+       if(node.left == null && node.right == null){
+        nodes.add(node);
+       }if (node.left != null){
+           inorder(node.left, nodes);
+       }if (node.right != null){
+           nodes.add(node);
+           inorder(node.right, nodes);
+       }
     }
 
     // Given an array of nodes, and two indexes 'lo' and 'hi',
