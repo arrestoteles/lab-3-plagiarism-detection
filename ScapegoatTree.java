@@ -24,7 +24,7 @@ import java.util.Iterator;
 public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterable<Key> {
 
     // How unbalanced the tree may become (must be at least 1).
-    final double alpha = 2;
+    final double alpha = 3;
 
     // In addition to being a binary search tree, a scapegoat tree
     // satisfies the following invariant every node:
@@ -146,15 +146,22 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
         // TODO: finish implementing put.
         // If you like you can start from the code for put in BST.java.
         // Read the lab instructions for more hints!
-        if (cmp < 0) {
-            // key is less than node.key
-        } else if (cmp > 0) {
-            // key is greater than node.key
-        } else {
-            // key is equal to node.key
+        if (cmp < 0)
+            node.left = put(node.left,  key, val);
+        else if (cmp > 0)
+            node.right = put(node.right, key, val);
+        else
+            node.val = val;
+
+        // height - 1 ≤ αlpha log_2(size)
+        int height = height(node);
+        if(height-1 <= alpha*log2(node.size)){
+            node = rebuild(node);
         }
 
-        throw new UnsupportedOperationException();
+        node.size = 1 + size(node.left) + size(node.right);
+        return node;
+
     }
 
     // Rebuild a tree to make it perfectly balanced.
@@ -192,8 +199,9 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
     // nodes[lo]..nodes[hi].
     private Node balanceNodes(ArrayList<Node> nodes, int lo, int hi) {
         // Base case: empty subarray.
-        if (lo > hi)
+        if (lo > hi){
             return null;
+        }
 
         // Midpoint of subarray.
         int mid = (lo+hi)/2;
@@ -213,7 +221,22 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
         // (4) Correctly set the 'size' and 'height' fields for the
         //      node.
         // (5) Return the node!
-        throw new UnsupportedOperationException();
+
+        /*
+        if(hi==lo){
+            return nodes.get(hi);
+        }
+
+         */
+
+
+        Node midNode = nodes.get(mid);
+        Node newNode = new Node(midNode.key, midNode.val);
+        newNode.left = balanceNodes(nodes, lo, mid-1);
+        newNode.right = balanceNodes(nodes, mid+1, hi);
+        newNode.height =  height(newNode.left) > height(newNode.right) ?  height(newNode.left)+1 :  height(newNode.right)+1;
+        newNode.size = hi-lo+1;
+        return newNode;
     }
 
     // Returns the binary logarithm of a number.
