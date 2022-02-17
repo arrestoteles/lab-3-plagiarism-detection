@@ -4,11 +4,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
-import java.util.stream.StreamSupport;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 // The main plagiarism detection program.
 // You only need to change buildIndex() and findSimilarity().
@@ -26,7 +25,7 @@ public class PlagiarismDetector {
             Scanner input = new Scanner(System.in);
             System.out.print("Give the path to the document set: ");
             System.out.flush();
-            args = new String[] {input.nextLine()};
+            args = new String[]{input.nextLine()};
         }
 
         // Read document paths from provided folder name.
@@ -77,7 +76,7 @@ public class PlagiarismDetector {
     // Phase 1: Read in each file and chop it into n-grams.
     static ScapegoatTree<Path, Ngram[]> readPaths(Path[] paths) throws IOException {
         ScapegoatTree<Path, Ngram[]> files = new ScapegoatTree<Path, Ngram[]>();
-        for (Path path: paths) {
+        for (Path path : paths) {
             String contents = new String(Files.readAllBytes(path));    // makes a String with all the contents of the file
             Ngram[] ngrams = Ngram.ngrams(contents, 5);             // creates all possible Ngrams from the contents
             // Remove duplicates from the ngrams list
@@ -97,10 +96,10 @@ public class PlagiarismDetector {
     static ScapegoatTree<Ngram, ArrayList<Path>> buildIndex(ScapegoatTree<Path, Ngram[]> files) {
         ScapegoatTree<Ngram, ArrayList<Path>> index = new ScapegoatTree<>();
         // TODO: build index of n-grams
-        for (Path file: files) {
+        for (Path file : files) {
             Ngram[] currentGrams = files.get(file);
-            for(Ngram currentGram : currentGrams){
-                if (!index.containsKey(currentGram)){
+            for (Ngram currentGram : currentGrams) {
+                if (!index.containsKey(currentGram)) {
                     ArrayList<Path> paths = new ArrayList<>();
                     paths.add(file);
                     index.put(currentGram, paths);
@@ -110,7 +109,7 @@ public class PlagiarismDetector {
                 }
             }
         }
-      return index;
+        return index;
     }
 
     // Phase 3: Count how many n-grams each pair of files has in common.
@@ -120,25 +119,25 @@ public class PlagiarismDetector {
         // PathPair represents a pair of Paths (see PathPair.java).
         ScapegoatTree<PathPair, Integer> similarity = new ScapegoatTree<>();
         //for (Path path1 : files) {
-            //for (Path path2: files) {
+        //for (Path path2: files) {
                 /* if (path1.equals(path2))
                     continue; */
-                // index = buildIndex(files);
-                //Ngram[] ngrams1 = files.get(path1); // all ngrams for the current file
-                // Ngram[] ngrams2 = files.get(path2);
-                for(Ngram ngram : index){
-                    ArrayList<Path> currentFiles = new ArrayList<>(index.get(ngram));  // gets a copy of all files that has the current ngrams                                      // remove current file because we shouldn't compare it with itself
-                    for (Path path1 : currentFiles) {// pair together current file with all files in current files, since both files has the same ngram
-                        for(Path path2 : currentFiles){
-                            if(path1.equals(path2)) continue;
-                            PathPair pair = new PathPair(path1, path2);
-                            if (!similarity.containsKey(pair))
-                                similarity.put(pair, 0);
-                            similarity.put(pair, similarity.get(pair)+1);
-                        }
-
-                    }
+        // index = buildIndex(files);
+        //Ngram[] ngrams1 = files.get(path1); // all ngrams for the current file
+        // Ngram[] ngrams2 = files.get(path2);
+        for (Ngram ngram : index) {
+            ArrayList<Path> currentFiles = new ArrayList<>(index.get(ngram));  // gets a copy of all files that has the current ngrams                                      // remove current file because we shouldn't compare it with itself
+            for (Path path1 : currentFiles) {// pair together current file with all files in current files, since both files has the same ngram
+                for (Path path2 : currentFiles) {
+                    if (path1.equals(path2)) continue;
+                    PathPair pair = new PathPair(path1, path2);
+                    if (!similarity.containsKey(pair))
+                        similarity.put(pair, 0);
+                    similarity.put(pair, similarity.get(pair) + 1);
                 }
+
+            }
+        }
 
 
                 /*
@@ -167,21 +166,21 @@ public class PlagiarismDetector {
         // We use the Java 8 streams API - see the comment to the
         // 'readPaths' method for more information.
         return
-            // Convert allPathPairs into a stream. This is a bit more
-            // complicated than it should be, because ScapegoatTree doesn't
-            // implement the streaming API. If ScapegoatTree came from the Java
-            // standard library, we could just write
-            // 'allPathPairs.stream()' or 'similarity.keys().stream()'.
-            StreamSupport.stream(similarity.spliterator(), false)
-            // Keep only dictinct pairs with more than 30 n-grams in common.
-            .filter(pair -> !pair.path1.equals(pair.path2) && similarity.get(pair) >= 30)
-            // Remove duplicates - pairs (path1, path2) and (path2, path1).
-            .map(PathPair::canonicalise)
-            .distinct()
-            // Sort to have the most similar pairs first.
-            .sorted(Comparator.comparing(similarity::get).reversed())
-            // Store the result in an ArrayList.
-            .collect(Collectors.toCollection(ArrayList<PathPair>::new));
+                // Convert allPathPairs into a stream. This is a bit more
+                // complicated than it should be, because ScapegoatTree doesn't
+                // implement the streaming API. If ScapegoatTree came from the Java
+                // standard library, we could just write
+                // 'allPathPairs.stream()' or 'similarity.keys().stream()'.
+                StreamSupport.stream(similarity.spliterator(), false)
+                        // Keep only dictinct pairs with more than 30 n-grams in common.
+                        .filter(pair -> !pair.path1.equals(pair.path2) && similarity.get(pair) >= 30)
+                        // Remove duplicates - pairs (path1, path2) and (path2, path1).
+                        .map(PathPair::canonicalise)
+                        .distinct()
+                        // Sort to have the most similar pairs first.
+                        .sorted(Comparator.comparing(similarity::get).reversed())
+                        // Store the result in an ArrayList.
+                        .collect(Collectors.toCollection(ArrayList<PathPair>::new));
     }
 
 }
