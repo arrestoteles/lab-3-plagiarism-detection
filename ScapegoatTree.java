@@ -24,7 +24,7 @@ import java.util.Iterator;
 public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterable<Key> {
 
     // How unbalanced the tree may become (must be at least 1).
-    final double alpha = 3;
+    final double alpha = 2;
 
     // In addition to being a binary search tree, a scapegoat tree
     // satisfies the following invariant every node:
@@ -146,20 +146,21 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
         // TODO: finish implementing put.
         // If you like you can start from the code for put in BST.java.
         // Read the lab instructions for more hints!
-        if (cmp < 0)
-            node.left = put(node.left,  key, val);
-        else if (cmp > 0)
+        if (cmp < 0) {
+            node.left = put(node.left, key, val);
+        } else if (cmp > 0) {
             node.right = put(node.right, key, val);
-        else
+        } else {
             node.val = val;
 
+
         // height - 1 ≤ αlpha log_2(size)
-        int height = height(node);
-        if(height-1 <= alpha*log2(node.size)){
+        node.height = height(node) + 1;
+        node.size = 1 + size(node.left) + size(node.right);
+        if(node.height-1 >= alpha*log2(node.size)){
             node = rebuild(node);
         }
 
-        node.size = 1 + size(node.left) + size(node.right);
         return node;
 
     }
@@ -185,7 +186,7 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
         // TODO: use in-order traversal to store 'node'
         // and all descendants into 'nodes' ArrayList
        if(node.left == null && node.right == null){
-        nodes.add(node);
+            nodes.add(node);
        }if (node.left != null){
            inorder(node.left, nodes);
        }if (node.right != null){
