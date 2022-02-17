@@ -187,14 +187,19 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
             // and all descendants into 'nodes' ArrayList
             if (node.left == null && node.right == null) {
                 nodes.add(node);
+                return;
             }
+
             if (node.left != null) {
                 inorder(node.left, nodes);
             }
+
+            nodes.add(node);
+
             if (node.right != null) {
-                nodes.add(node);
                 inorder(node.right, nodes);
             }
+
         }
 
         // Given an array of nodes, and two indexes 'lo' and 'hi',
