@@ -190,7 +190,6 @@ public class ScapegoatTree<Key extends Comparable<Key>, Value> implements Iterab
             }
             if (node.left != null) {
                 inorder(node.left, nodes);
-                nodes.add(node);
             }
             if (node.right != null) {
                 nodes.add(node);
