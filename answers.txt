@@ -4,8 +4,8 @@
 
 Group members:
 - Victor Campanello
-- [...]
-- [...]
+- Shariq Shahbaz
+- Armin Balesic
 
 /******************************************************************************
 ** Task 1: Analyzing the slow program
@@ -32,16 +32,9 @@ Group members:
 small: 4.43 seconds
 medium: 751.18 seconds
 
-We expect the increase in time from small to medium to be 100 times greater, as the increase in N 
-
-(20_000^2)/x = 4 secs
-400_000_000/x = 4 secs
-
-20_000^2 = 400_000_000 = 4 secs
-(200_000^2) * 2 = 40_000_000_000 * 2 = 400 secs * 2 = 800 secs
-4,000,000^2 = 16,000,000,000,000 = 160,000 secs
-
-Since the notes mentioned that you should expect an additional 2X increase
+No, we expected the increase in time from small to medium to be 100 times greater, so 443 seconds, as the increase in
+N is 10 times and the complexity is N². But the actual increase was roughly two times the expected (which was in
+line with the information provided in the README.md that mentioned that medium should take 2X time).
 
 /******************************************************************************
 ** 3. How long do you predict the program would take to run on
@@ -59,15 +52,13 @@ We expect complexity to be a multiple of 200² = 40_000
 **    Say very briefly how you deduced this.
 ******************************************************************************/
 
-The index containing the Ngrams and the paths to files containing that Ngram becomes unbalanced,
-
-[...]
+The files BST, since the files are sorted which causes problems for BSTs without balancing.
 
 /******************************************************************************
 ** 5 (optional). Is there a simple way to stop these trees becoming unbalanced?
 ******************************************************************************/
 
-[...]
+Yes, shuffle the files so they are not sorted.
 
 /******************************************************************************
 ** Task 3: Using scapegoat trees instead of BSTs
@@ -77,14 +68,22 @@ The index containing the Ngrams and the paths to files containing that Ngram bec
 **    and a constant number of duplicate occurrences of 5-grams.
 ******************************************************************************/
 
-[...]
+
+buildIndex: N log N
+we loop through all ngrams once, thus we have complexity N
+adding these ngrams to the scapegoat tree has logarithmic complexity, hence N log N
+
+findSimilarity: N log N
+we loop through all ngrams in our index, hence adding a complexity of N
+the complexity of putting to a SGT is log n, hence for each similarity we add a complexity of log n
+we can disregard the complexity of the files SGT as it has no effect on the asymptotic complexity
 
 /******************************************************************************
 ** 7 (optional). What if the total similarity score is an arbitrary number S,
 **               rather than a small constant?
 ******************************************************************************/
 
-[...]
+N log(NS)
 
 /******************************************************************************
 ** Appendix: General information
@@ -92,15 +91,15 @@ The index containing the Ngrams and the paths to files containing that Ngram bec
 ** A. Approximately how many hours did you spend on the assignment?
 ******************************************************************************/
 
-[..group member..]:  [..hours..]
-[..group member..]:  [..hours..]
-[..group member..]:  [..hours..]
+- Victor Campanello - 9.5
+- Shariq Shahbaz    - 9.5
+- Armin Balesic     - 9.5
 
 /******************************************************************************
 ** B. Are there any known bugs / limitations?
 ******************************************************************************/
 
-[...]
+no
 
 /******************************************************************************
 ** C. Did you collaborate with any other students on this lab?
@@ -109,13 +108,13 @@ The index containing the Ngrams and the paths to files containing that Ngram bec
 **    may have used in creating your design.
 ******************************************************************************/
 
-[...]
+no
 
 /******************************************************************************
 ** D. Describe any serious problems you encountered.                    
 ******************************************************************************/
 
-[...]
+no problems
 
 /******************************************************************************
 ** E. List any other comments here.
@@ -123,4 +122,4 @@ The index containing the Ngrams and the paths to files containing that Ngram bec
 **    from doing the assignment, and whether you enjoyed it.                                             
 ******************************************************************************/
 
-[...]
+

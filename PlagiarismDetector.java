@@ -136,7 +136,6 @@ public class PlagiarismDetector {
                                 similarity.put(pair, 0);
                             similarity.put(pair, similarity.get(pair)+1);
                         }
-
                     }
                 }
 
